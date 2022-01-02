@@ -13,6 +13,8 @@ By using this tool it's no longer necessary to manually adjust the OMSI in-game 
 
 **Important:** This tool modifies parts of the memory of OMSI.exe. It's strongly recommended that you close any games which have anti-cheat detection prior to running this tool as this activity might be falsely flagged as a cheat/hack by one or more of the various anti-cheat solutions out there.
 
+This program will also likely need to be 'run as administrator' due to the memory editing it will perform on the 'Omsi.exe' process.
+
 # Prerequisites
 - .NET Framework 4.7.2
 - Memory.dll (https://github.com/erfg12/memory.dll/) - Included with the releases

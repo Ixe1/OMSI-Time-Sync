@@ -173,14 +173,10 @@ namespace OMSI_Time_Sync
 
                         if (!pipeClient.IsConnected)
                         {
-                            // this.InvokeEx(f => f.lblOmsiTelemetryPluginStatus.Text = "Not Detected");
-
                             pipeClient.Connect();
                         }
 
                         OmsiTelemetry.pluginActive = pipeClient.IsConnected;
-
-                        // this.InvokeEx(f => f.lblOmsiTelemetryPluginStatus.Text = "Active");
 
                         using (var reader = new StreamReader(pipeClient))
                         {

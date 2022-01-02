@@ -5,6 +5,8 @@ By using this tool it's no longer necessary to manually adjust the OMSI in-game 
 
 ![OMSI Time Sync](https://github.com/Ixe1/OMSI-Time-Sync/blob/master/OMSI%20Time%20Sync/screenshot/app.png)
 
+**Important:** This tool modifies parts of the memory of OMSI.exe. It's strongly recommended that you close any games which have anti-cheat detection prior to running this tool as this activity might be falsely flagged as a cheat/hack by one or more of the various anti-cheat solutions out there.
+
 # Prerequisites
 - .NET Framework 4.7.2
 - Memory.dll (https://github.com/erfg12/memory.dll/) - Included with the releases

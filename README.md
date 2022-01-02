@@ -1,7 +1,9 @@
 # OMSI Time Sync
 A tool which will automatically keep OMSI 2's in-game time in sync with the system or Bus Company Simulator virtual company's time. Optionally you can manually sync the in-game time by either pressing a hotkey or the button on the UI.
 
-By using this tool it's no longer necessary to 
+By using this tool it's no longer necessary to manually adjust the OMSI in-game time, typically after every tour or so, due to the game usually lagging periodically and therefore the in-game time drifts from either the system's actual time or virtual bus company's actual time.
+
+![OMSI Time Sync](https://github.com/Ixe1/OMSI-Time-Sync/blob/master/OMSI%20Time%20Sync/screenshot/app.png)
 
 # Prerequisites
 - .NET Framework 4.7.2

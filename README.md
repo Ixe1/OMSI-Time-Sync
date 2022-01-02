@@ -18,10 +18,10 @@ By using this tool it's no longer necessary to manually adjust the OMSI in-game 
 - Memory.dll (https://github.com/erfg12/memory.dll/) - Included with the releases
 
 # Optional
-- OMSI Time Sync's Telemetry Plugin ([TODO])
+- [OMSI Time Sync's Telemetry Plugin](https://github.com/Ixe1/OMSI-Time-Sync-Telemetry-Plugin)
 
 # Installation Steps
-1. Download the latest release from [TODO]
+1. Download the latest release from [here](https://github.com/Ixe1/OMSI-Time-Sync/releases)
 2. Extract the ZIP file to somewhere convenient
 3. Run 'OmsiSyncTool.exe'
 4. Configure as appropriate via the UI

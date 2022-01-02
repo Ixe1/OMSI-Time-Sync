@@ -1,3 +1,5 @@
+[fork my repository](https://github.com/Ixe1/OMSI-Time-Sync/fork) [watch this repo](https://github.com/Ixe1/OMSI-Time-Sync/subscription) [create issue](https://github.com/Ixe1/OMSI-Time-Sync/issues/new)
+
 [TODO] Some buttons here?
 
 # OMSI Time Sync

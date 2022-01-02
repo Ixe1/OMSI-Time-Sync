@@ -29,4 +29,9 @@ Contact me on Discord at Ixel#6107 or send something via Github.
 # Donation
 While this is a free and open source program, if you like this tool then a donation of some kind is highly appreciated. Doing so also encourages me to develop something else in the future that you and others might find useful, as well as to maintain this specific tool as and when it might be necessary or appropriate.
 
+# Licence
+This is licenced under the GNU General Public License v3 (GPL-3) licence. Please see https://www.gnu.org/licenses/gpl-3.0.en.html for more information.
+
 Thanks in advance to anyone who chooses to donate something.
+
+**Donate at [TODO]**

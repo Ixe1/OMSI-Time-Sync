@@ -18,6 +18,7 @@ This program will also likely need to be 'run as administrator' due to the memor
 # Prerequisites
 - .NET Framework 4.7.2
 - Memory.dll (https://github.com/erfg12/memory.dll/) - Included with the releases
+- System.Security.Principal.Windows (https://www.nuget.org/packages/System.Security.Principal.Windows/) - Included with the releases
 
 # Optional
 - [OMSI Time Sync's Telemetry Plugin](https://github.com/Ixe1/OMSI-Time-Sync-Telemetry-Plugin)

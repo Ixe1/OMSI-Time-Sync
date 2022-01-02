@@ -331,13 +331,12 @@ namespace OMSI_Time_Sync
 
         private void lnkGithub_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            System.Diagnostics.Process.Start("http://github.com/Ixe1/OmsiTimeSync");
+            System.Diagnostics.Process.Start("http://github.com/Ixe1/OMSI-Time-Sync");
         }
 
         private void lnkDonate_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            // TODO: Setup a donation URL
-            System.Diagnostics.Process.Start("http://[TODO]");
+            System.Diagnostics.Process.Start("https://paypal.me/ixe1");
         }
 
         private void frmMain_Load(object sender, EventArgs e)

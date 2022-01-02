@@ -1,9 +1,5 @@
-[fork my repository](https://github.com/Ixe1/OMSI-Time-Sync/fork) [watch this repo](https://github.com/Ixe1/OMSI-Time-Sync/subscription) [create issue](https://github.com/Ixe1/OMSI-Time-Sync/issues/new)
-
-[TODO] Some buttons here?
-
 # OMSI Time Sync
-A tool which will automatically keep OMSI 2's in-game time in sync with the system or Bus Company Simulator virtual company's time. Optionally you can manually sync the in-game time by either pressing a hotkey or the button on the UI.
+A simple tool which automatically keeps OMSI 2's in-game time in sync with either the system time or Bus Company Simulator virtual company's time. Optionally you can manually sync the in-game time by either pressing a hotkey or the button on the UI.
 
 By using this tool it's no longer necessary to manually adjust the OMSI in-game time, typically after every tour or so, due to the game usually lagging periodically and therefore the in-game time drifts from either the system's actual time or virtual bus company's actual time.
 

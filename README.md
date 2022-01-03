@@ -20,7 +20,7 @@ https://user-images.githubusercontent.com/96985590/147923517-8446a49a-b5c6-478c-
 This program will also likely need to be 'run as administrator' due to the memory editing it will perform on the 'Omsi.exe' process.
 
 # Prerequisites
-- .NET Framework 4.7.2
+- .NET Framework 4.7.2 Runtime (https://dotnet.microsoft.com/en-us/download/dotnet-framework/net472)
 - Memory.dll (https://github.com/erfg12/memory.dll/) - Included with the releases
 - System.Security.Principal.Windows (https://www.nuget.org/packages/System.Security.Principal.Windows/) - Included with the releases
 

@@ -9,7 +9,11 @@ A simple tool which automatically keeps OMSI 2's in-game time in sync with eithe
 
 By using this tool it's no longer necessary to manually adjust the OMSI in-game time, typically after every tour or so, due to the game usually lagging periodically and therefore the in-game time drifts from either the system's actual time or virtual bus company's actual time.
 
+# Screenshot
 ![OMSI Time Sync](https://github.com/Ixe1/OMSI-Time-Sync/blob/master/OMSI%20Time%20Sync/screenshot/app.png)
+
+# Video Preview (v1.00)
+https://user-images.githubusercontent.com/96985590/147923517-8446a49a-b5c6-478c-9d2f-65b2b7f9d84c.mp4
 
 **Important:** This tool modifies parts of the memory of OMSI.exe. It's strongly recommended that you close any games which have anti-cheat detection prior to running this tool as this activity might be falsely flagged as a cheat/hack by one or more of the various anti-cheat solutions out there.
 

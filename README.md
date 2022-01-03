@@ -30,7 +30,7 @@ This program will also likely need to be 'run as administrator' due to the memor
 # Installation Steps
 1. Download the latest release from [here](https://github.com/Ixe1/OMSI-Time-Sync/releases)
 2. Extract the ZIP file to somewhere convenient
-3. Run 'OmsiTimeSync.exe'
+3. Run 'OMSI Time Sync.exe'
 4. Configure as appropriate via the UI
 5. Run OMSI or Bus Company Simulator and continue as usual
 

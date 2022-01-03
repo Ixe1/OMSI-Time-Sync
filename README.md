@@ -53,3 +53,4 @@ This is licenced under the GNU General Public License v3 (GPL-3) licence. Please
 
 # Credits
 - [sjain](https://github.com/sjain882) - Helping beta test both the tool and the plugin
+- Charlie S#6270 on Discord - Helping beta test both the tool and the plugin

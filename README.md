@@ -44,3 +44,6 @@ Thanks in advance to anyone who chooses to donate something.
 
 # Licence
 This is licenced under the GNU General Public License v3 (GPL-3) licence. Please see https://www.gnu.org/licenses/gpl-3.0.en.html for more information.
+
+# Credits
+- [sjain](https://github.com/sjain882) - Helping beta test both the tool and the plugin

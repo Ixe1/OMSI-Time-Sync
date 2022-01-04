@@ -37,9 +37,13 @@ This program will need to be ran as administrator due to the memory editing it w
 4. Configure as appropriate via the UI
 5. Run OMSI or Bus Company Simulator and continue as usual
 
-**Note:** When trying to run the EXE file you may find that Windows has blocked it, due to being overly sensitive. It presumably doesn't trust the memory editing that's going on. In order to get around this problem just right click the EXE file, go to 'properties' and then check 'unblock' and press 'OK'. You should now be able to run the EXE file.
-
 **Note:** If you're in a virtual company in Bus Company Simulator then please make sure you set the correct 'OMSI Time Offset' for that virtual company's timezone so that the OMSI in-game time is correct when it's being synced.
+
+# Important note about SmartScreen
+
+You may also need to 'unblock' the 'OMSI Time Sync.exe' executable file if Windows Smartscreen prevents you from running it. This is because the executable file isn't digitally signed and is therefore considered untrusted. Sadly a code signing certificate costs money as well as ultimately revealing too many personal details about me, the author, which on the internet can result in unfortunate consequences when used in the wrong hands.
+
+In order to do unblock the file, please right click on the 'OMSI Time Sync.exe' executable file and go to 'properties' from the pop-up menu. In the newly shown dialog window, please tick the box next to 'unblock' and press the 'OK' button. You should now be able to do step 3 successfully this time.
 
 # Questions?
 Contact me on Discord at Ixel#6107 or send something via Github.

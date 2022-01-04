@@ -19,9 +19,10 @@ https://user-images.githubusercontent.com/96985590/147923517-8446a49a-b5c6-478c-
 
 **Important:** This tool modifies parts of the memory of OMSI.exe. It's strongly recommended that you close any games which have anti-cheat detection prior to running this tool as this activity might be falsely flagged as a cheat/hack by one or more of the various anti-cheat solutions out there.
 
-This program will also likely need to be 'run as administrator' due to the memory editing it will perform on the 'Omsi.exe' process.
+This program will need to be ran as administrator due to the memory editing it will perform on the 'Omsi.exe' process.
 
 # Prerequisites
+- OMSI 2 **version 2.3.004** - this tool will not work with other versions of OMSI 2
 - .NET Framework 4.7.2 Runtime (https://dotnet.microsoft.com/en-us/download/dotnet-framework/net472)
 - Memory.dll (https://github.com/erfg12/memory.dll/) - Included with the releases
 - System.Security.Principal.Windows (https://www.nuget.org/packages/System.Security.Principal.Windows/) - Included with the releases

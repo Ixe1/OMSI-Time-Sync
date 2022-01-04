@@ -1,3 +1,5 @@
+**Created by:** Paul Lewis
+
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/Ixe1/OMSI-Time-Sync)](https://github.com/Ixe1/OMSI-Time-Sync/releases)
 
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://paypal.me/ixe1)

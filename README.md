@@ -41,9 +41,9 @@ This program will need to be ran as administrator due to the memory editing it w
 
 # Important note about SmartScreen
 
-You may also need to 'unblock' the 'OMSI Time Sync.exe' executable file if Windows Smartscreen prevents you from running it. This is because the executable file isn't digitally signed and is therefore considered untrusted. Sadly a code signing certificate costs money as well as ultimately revealing too many personal details about me, the author, which on the internet can result in unfortunate consequences when used in the wrong hands.
+You may also need to 'unblock' the 'OMSI Time Sync.exe' executable file if SmartScreen prevents you from running it. This is because the executable file isn't digitally signed and is therefore considered untrusted. Sadly a code signing certificate costs money as well as ultimately revealing too many personal details about me, the author, which on the internet can result in unfortunate consequences when used in the wrong hands.
 
-In order to do unblock the file, please right click on the 'OMSI Time Sync.exe' executable file and go to 'properties' from the pop-up menu. In the newly shown dialog window, please tick the box next to 'unblock' and press the 'OK' button. You should now be able to do step 3 successfully this time.
+In order to unblock the file, please right click on the 'OMSI Time Sync.exe' executable file and go to 'properties' from the pop-up menu. In the newly shown dialog window, please tick the box next to 'unblock' and press the 'OK' button. You should now be able to do step 3 successfully this time.
 
 # Questions?
 Contact me on Discord at Ixel#6107 or send something via Github.

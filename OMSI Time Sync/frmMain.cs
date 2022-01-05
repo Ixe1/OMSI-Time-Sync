@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Pipes;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Memory;
@@ -35,36 +37,38 @@ namespace OMSI_Time_Sync
         }
 
         // Get the current OMSI version
-        private async Task<string> getOmsiVersionAsync()
+        private string getOmsiVersionAsync()
         {
             // If process is attached
             if (processAttached)
             {
                 try
                 {
-                    /*
-                     * // Perform an 'array of bytes' scan, in writable and non-executable memory, for OMSI's version
-                     * IEnumerable<long> resultsAoBScan = await m.AoBScan(Omsi.versionSignature, true, false);
-                     * 
-                     * // If we found at least one result
-                     * if (resultsAoBScan.Count() > 0)
-                     * {
-                     *     // Get the first result's address
-                     *     long firstAoBScanResult = resultsAoBScan.FirstOrDefault();
-                     * 
-                     *     // Read 16 characters of the first result's address
-                     *     string omsiVer = m.ReadString(firstAoBScanResult.ToString("X"), "", 16).ToString();
-                     * 
-                     *     // Start at the 9th character and finish at the 7th character of that substring
-                     *     omsiVer = omsiVer.Substring(9, 7);
-                     * 
-                     *     // Return the OMSI version, ideally something like:
-                     *     // 2.3.004
-                     *     return omsiVer;
-                     * }
-                     */
+                    // Generate an MD5 hash of the Omsi.exe file in order to confirm the version of OMSI
+                    byte[] hash;
+                    using (var inputStream = File.OpenRead(m.theProc.MainModule.FileName))
+                    {
+                        MD5 md5 = MD5.Create();
+                        hash = md5.ComputeHash(inputStream);
+                        
+                        // Convert the byte array to hexadecimal string
+                        StringBuilder sb = new StringBuilder();
+                        for (int i = 0; i < hash.Length; i++)
+                        {
+                            sb.Append(hash[i].ToString("X2"));
+                        }
 
-                    return m.theProc.MainModule.FileVersionInfo.FileVersion;
+                        string md5Hash = sb.ToString().ToUpper();
+
+                        switch (md5Hash)
+                        {
+                            case "E5F61D164F4C2374513C4CA9AC1AF635":
+                                return "2.3.004";
+
+                            case "656C9ED8E87BE60744F55E14A43CEA0E":
+                                return "2.2.32";
+                        }
+                    }
                 }
                 catch { }
             }
@@ -302,7 +306,7 @@ namespace OMSI_Time_Sync
         }
 
         // Timer that runs every 1 second
-        private async void tmrOMSI_Tick(object sender, EventArgs e)
+        private void tmrOMSI_Tick(object sender, EventArgs e)
         {
             // If the plugin is active or not then indicate this on the UI
             if (OmsiTelemetry.pluginActive)
@@ -351,7 +355,7 @@ namespace OMSI_Time_Sync
                 // If OMSI version is currently unknown then try to identify what the version is
                 if (omsiVersion == "Unknown")
                 {
-                    omsiVersion = await getOmsiVersionAsync();
+                    omsiVersion = getOmsiVersionAsync();
                 }
 
                 // If the OMSI version is still unknown then we assume OMSI is still loading

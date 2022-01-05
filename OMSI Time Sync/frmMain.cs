@@ -62,9 +62,13 @@ namespace OMSI_Time_Sync
 
                         switch (md5Hash)
                         {
+                            // Without 4GB patch
+                            // With 4GB patch
+                            case "9A92C43C98ACD4C4A4E8C9F1BA56D906":
                             case "E5F61D164F4C2374513C4CA9AC1AF635":
                                 return "2.3.004";
 
+                            case "E7515B2A2124AD2BF10CA4007D7A0689":
                             case "656C9ED8E87BE60744F55E14A43CEA0E":
                                 return "2.2.32";
                         }

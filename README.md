@@ -59,5 +59,6 @@ Thanks in advance to anyone who chooses to donate something.
 This is licenced under the GNU General Public License v3 (GPL-3) licence. Please see https://www.gnu.org/licenses/gpl-3.0.en.html for more information.
 
 # Credits
-- [sjain](https://github.com/sjain882) - Helping beta test both the tool and the plugin
+- [sjain](https://github.com/sjain882) - Helping beta test both the tool and the plugin, idea about anti-cheat warning notice, concept for AoB scanning game version
+- [BlueOrange](https://github.com/BlueOrange775) - C#.NET OMSI plugin base template
 - Charlie S#6270 on Discord - Helping beta test both the tool and the plugin

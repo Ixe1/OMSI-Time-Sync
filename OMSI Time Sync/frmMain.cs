@@ -37,7 +37,7 @@ namespace OMSI_Time_Sync
         }
 
         // Get the current OMSI version
-        private string getOmsiVersionAsync()
+        private string getOmsiVersion()
         {
             // If process is attached
             if (processAttached)
@@ -355,7 +355,7 @@ namespace OMSI_Time_Sync
                 // If OMSI version is currently unknown then try to identify what the version is
                 if (omsiVersion == "Unknown")
                 {
-                    omsiVersion = getOmsiVersionAsync();
+                    omsiVersion = getOmsiVersion();
                 }
 
                 // If the OMSI version is still unknown then we assume OMSI is still loading
@@ -375,7 +375,8 @@ namespace OMSI_Time_Sync
 
                     return;
                 }
-
+                
+                // If OMSI time text isn't 'ControlText' colour then make it so again
                 if (lblOmsiTime.ForeColor != System.Drawing.SystemColors.ControlText)
                 {
                     lblOmsiTime.ForeColor = System.Drawing.SystemColors.ControlText;

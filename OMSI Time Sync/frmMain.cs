@@ -627,10 +627,6 @@ namespace OMSI_Time_Sync
     // Important addresses in memory for the OMSI process
     static class Omsi
     {
-        // Version: ???????....
-        // For example, Version: 2.3.004....
-        public const string versionSignature = "56 65 72 73 69 6F 6E 3A 20 ?? ?? ?? ?? ?? ?? ?? 0D 0A 0D 0A";
-
         // < [OMSI_VERSION], { [ADDRESS_TYPE], "[ADDRESS_LOCATION]" } >
         // < "2.3.004", { hour, "base+0x0046176C" } >
         private static Dictionary<string, List<OmsiAddress>> omsiAddresses = new Dictionary<string, List<OmsiAddress>>();

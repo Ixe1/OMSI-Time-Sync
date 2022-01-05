@@ -42,27 +42,29 @@ namespace OMSI_Time_Sync
             {
                 try
                 {
-                    // Perform an 'array of bytes' scan, in writable and non-executable memory, for:
-                    // Version: ???????....
-                    // For example, Version: 2.3.004....
-                    IEnumerable<long> resultsAoBScan = await m.AoBScan("56 65 72 73 69 6F 6E 3A 20 ?? ?? ?? ?? ?? ?? ?? 0D 0A 0D 0A", true, false);
+                    /*
+                     * // Perform an 'array of bytes' scan, in writable and non-executable memory, for OMSI's version
+                     * IEnumerable<long> resultsAoBScan = await m.AoBScan(Omsi.versionSignature, true, false);
+                     * 
+                     * // If we found at least one result
+                     * if (resultsAoBScan.Count() > 0)
+                     * {
+                     *     // Get the first result's address
+                     *     long firstAoBScanResult = resultsAoBScan.FirstOrDefault();
+                     * 
+                     *     // Read 16 characters of the first result's address
+                     *     string omsiVer = m.ReadString(firstAoBScanResult.ToString("X"), "", 16).ToString();
+                     * 
+                     *     // Start at the 9th character and finish at the 7th character of that substring
+                     *     omsiVer = omsiVer.Substring(9, 7);
+                     * 
+                     *     // Return the OMSI version, ideally something like:
+                     *     // 2.3.004
+                     *     return omsiVer;
+                     * }
+                     */
 
-                    // If we found at least one result
-                    if (resultsAoBScan.Count() > 0)
-                    {
-                        // Get the first result's address
-                        long firstAoBScanResult = resultsAoBScan.FirstOrDefault();
-
-                        // Read 16 characters of the first result's address
-                        string omsiVer = m.ReadString(firstAoBScanResult.ToString("X"), "", 16).ToString();
-
-                        // Start at the 9th character and finish at the 7th character of that substring
-                        omsiVer = omsiVer.Substring(9, 7);
-
-                        // Return the OMSI version, ideally something like:
-                        // 2.3.004
-                        return omsiVer;
-                    }
+                    return m.theProc.MainModule.FileVersionInfo.FileVersion;
                 }
                 catch { }
             }
@@ -77,7 +79,13 @@ namespace OMSI_Time_Sync
         {
             if (processAttached)
             {
-                string dateStr = m.ReadInt(OmsiAddresses.day).ToString("D2") + "/" + m.ReadInt(OmsiAddresses.month).ToString("D2") + "/" + m.ReadInt(OmsiAddresses.year).ToString("D4") + " " + m.ReadByte(OmsiAddresses.hour).ToString("D2") + ":" + m.ReadByte(OmsiAddresses.minute).ToString("D2") + ":" + ((int)Math.Max(0, Math.Min(59, Math.Ceiling(m.ReadFloat(OmsiAddresses.second))))).ToString("D2");
+                // dd/mm/yyyy hh:mm:ss
+                string dateStr = m.ReadInt(Omsi.getMemoryAddress(omsiVersion, "day")).ToString("D2") + "/" + 
+                    m.ReadInt(Omsi.getMemoryAddress(omsiVersion, "month")).ToString("D2") + "/" + 
+                    m.ReadInt(Omsi.getMemoryAddress(omsiVersion, "year")).ToString("D4") + " " + 
+                    m.ReadByte(Omsi.getMemoryAddress(omsiVersion, "hour")).ToString("D2") + ":" + 
+                    m.ReadByte(Omsi.getMemoryAddress(omsiVersion, "minute")).ToString("D2") + ":" + 
+                    ((int)Math.Max(0, Math.Min(59, Math.Ceiling(m.ReadFloat(Omsi.getMemoryAddress(omsiVersion, "second")))))).ToString("D2");
 
                 return DateTime.TryParse(dateStr, out omsiTime);
             }
@@ -147,13 +155,13 @@ namespace OMSI_Time_Sync
                             }
 
                             // Apply the new date and time in OMSI by modifying some of the addresses in memory
-                            m.WriteMemory(OmsiAddresses.hour, "int", newSystemTime.Hour.ToString());
-                            m.WriteMemory(OmsiAddresses.minute, "int", newSystemTime.Minute.ToString());
-                            m.WriteMemory(OmsiAddresses.second, "float", newSystemTime.Second.ToString());
+                            m.WriteMemory(Omsi.getMemoryAddress(omsiVersion, "hour"), "int", newSystemTime.Hour.ToString());
+                            m.WriteMemory(Omsi.getMemoryAddress(omsiVersion, "minute"), "int", newSystemTime.Minute.ToString());
+                            m.WriteMemory(Omsi.getMemoryAddress(omsiVersion, "second"), "float", newSystemTime.Second.ToString());
 
-                            m.WriteMemory(OmsiAddresses.day, "int", newSystemTime.Day.ToString());
-                            m.WriteMemory(OmsiAddresses.month, "int", newSystemTime.Month.ToString());
-                            m.WriteMemory(OmsiAddresses.year, "int", newSystemTime.Year.ToString());
+                            m.WriteMemory(Omsi.getMemoryAddress(omsiVersion, "day"), "int", newSystemTime.Day.ToString());
+                            m.WriteMemory(Omsi.getMemoryAddress(omsiVersion, "month"), "int", newSystemTime.Month.ToString());
+                            m.WriteMemory(Omsi.getMemoryAddress(omsiVersion, "year"), "int", newSystemTime.Year.ToString());
                         }
                     }
 
@@ -340,9 +348,33 @@ namespace OMSI_Time_Sync
             // If a process is attached
             if (processAttached)
             {
+                // If OMSI version is currently unknown then try to identify what the version is
                 if (omsiVersion == "Unknown")
                 {
                     omsiVersion = await getOmsiVersionAsync();
+                }
+
+                // If the OMSI version is still unknown then we assume OMSI is still loading
+                // Further code execution stops here until the version can be identified
+                if (omsiVersion == "Unknown")
+                {
+                    return;
+                }
+
+                // Check if OMSI version is supported, if it's not then stop further code execution and explain in the UI
+                if (!Omsi.isVersionSupported(omsiVersion))
+                {
+                    omsiLoaded = false;
+
+                    lblOmsiTime.Text = "OMSI version '" + omsiVersion + "' is not supported";
+                    lblOmsiTime.ForeColor = System.Drawing.Color.Red;
+
+                    return;
+                }
+
+                if (lblOmsiTime.ForeColor != System.Drawing.SystemColors.ControlText)
+                {
+                    lblOmsiTime.ForeColor = System.Drawing.SystemColors.ControlText;
                 }
 
                 // If getOmsiTime() is true then OMSI is loaded into a map with a valid date and time
@@ -372,6 +404,7 @@ namespace OMSI_Time_Sync
             {
                 // State that 'OMSI is not running' in the UI
                 lblOmsiTime.Text = "OMSI is not running!";
+                lblOmsiTime.ForeColor = System.Drawing.Color.Red;
             }
         }
 
@@ -523,6 +556,26 @@ namespace OMSI_Time_Sync
             // For accessing and writing to OMSI's memory later on
             m = new Mem();
 
+            // Add supported OMSI memory addresses
+
+            // v2.3.004
+            // Date/Time
+            Omsi.addMemoryAddress("2.3.004", new OmsiAddress("hour", "base+0x0046176C"));     // int (h)
+            Omsi.addMemoryAddress("2.3.004", new OmsiAddress("minute", "base+0x0046176D"));   // int (m)
+            Omsi.addMemoryAddress("2.3.004", new OmsiAddress("second", "base+0x00461770"));   // float (second.millisecond)
+            Omsi.addMemoryAddress("2.3.004", new OmsiAddress("year", "base+0x00461790"));     // int (yyyy)
+            Omsi.addMemoryAddress("2.3.004", new OmsiAddress("month", "base+0x0046178C"));    // int (m)
+            Omsi.addMemoryAddress("2.3.004", new OmsiAddress("day", "base+0x00461778"));      // int (d)
+
+            // v2.2.032
+            // Date/Time
+            Omsi.addMemoryAddress("2.2.032", new OmsiAddress("hour", "base+0x00461768"));     // int (h)
+            Omsi.addMemoryAddress("2.2.032", new OmsiAddress("minute", "base+0x00461769"));   // int (m)
+            Omsi.addMemoryAddress("2.2.032", new OmsiAddress("second", "base+0x0046176C"));   // float (second.millisecond)
+            Omsi.addMemoryAddress("2.2.032", new OmsiAddress("year", "base+0x0046178C"));     // int (yyyy)
+            Omsi.addMemoryAddress("2.2.032", new OmsiAddress("month", "base+0x00461788"));    // int (m)
+            Omsi.addMemoryAddress("2.2.032", new OmsiAddress("day", "base+0x00461774"));      // int (d)
+
             // Enable the timer which does various stuff
             tmrOMSI.Enabled = true;
 
@@ -546,15 +599,75 @@ namespace OMSI_Time_Sync
         }
     }
 
-    // Important addresses in memory for the OMSI process
-    static class OmsiAddresses
+    // Struct for OMSI memory addresses
+    public struct OmsiAddress
     {
-        public const string hour = "base+0x0046176C";     // int (h)
-        public const string minute = "base+0x0046176D";   // int (m)
-        public const string second = "base+0x00461770";   // float (second.millisecond)
-        public const string year = "base+0x00461790";     // int (yyyy)
-        public const string month = "base+0x0046178C";    // int (m)
-        public const string day = "base+0x00461778";      // int (d)
+        // For example, hour, month, day, minute, etc.
+        public readonly string addressType;
+        // For example, base+0x00000000
+        public readonly string addressLocation;
+
+        // Constructor
+        public OmsiAddress(string addressType, string addressLocation)
+        {
+            this.addressType = addressType;
+            this.addressLocation = addressLocation;
+        }
+    }
+
+    // Important addresses in memory for the OMSI process
+    static class Omsi
+    {
+        // Version: ???????....
+        // For example, Version: 2.3.004....
+        public const string versionSignature = "56 65 72 73 69 6F 6E 3A 20 ?? ?? ?? ?? ?? ?? ?? 0D 0A 0D 0A";
+
+        // < [OMSI_VERSION], { [ADDRESS_TYPE], "[ADDRESS_LOCATION]" } >
+        // < "2.3.004", { hour, "base+0x0046176C" } >
+        private static Dictionary<string, List<OmsiAddress>> omsiAddresses = new Dictionary<string, List<OmsiAddress>>();
+
+        // Add a memory address to what's supported by this program
+        public static void addMemoryAddress(string version, OmsiAddress omsiAddress)
+        {
+            // If version doesn't already exist then make a version entry in the dictionary with the memory address
+            if (!omsiAddresses.ContainsKey(version))
+            {
+                omsiAddresses.Add(version, new List<OmsiAddress>());
+                omsiAddresses.Last().Value.Add(new OmsiAddress(omsiAddress.addressType, omsiAddress.addressLocation));
+            }
+            // Else append the memory address to the existing dictionary entry
+            else
+            {
+                omsiAddresses[version].Add(omsiAddress);
+            }
+        }
+
+        // Find a memory address from what's supported by this program and return the address (if supported)
+        // Otherwise return null
+        public static string getMemoryAddress(string version, string addressType)
+        {
+            List<OmsiAddress> addresses;
+
+            if (omsiAddresses.TryGetValue(version, out addresses))
+            {
+                int index = addresses.FindIndex(s => s.addressType == addressType);
+
+                if (index >= 0)
+                {
+                    return addresses[index].addressLocation;
+                }
+            }
+
+            return null;
+        }
+
+        // Simple check to verify if the OMSI version is supported by this program
+        public static bool isVersionSupported(string version)
+        {
+            if (omsiAddresses.ContainsKey(version)) return true;
+
+            return false;
+        }
     }
 
     // For use with the OMSI telemetry plugin (optional)

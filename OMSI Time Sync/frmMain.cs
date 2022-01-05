@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Pipes;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Memory;
@@ -15,6 +17,9 @@ namespace OMSI_Time_Sync
         // Is OMSI loaded into a map?
         public bool omsiLoaded = false;
 
+        // The version of OMSI currently running (or unknown)
+        public string omsiVersion = "Unknown";
+
         // Is OMSI running and this tool has been successfully attached to it?
         public bool processAttached = false;
 
@@ -27,6 +32,44 @@ namespace OMSI_Time_Sync
         public frmMain()
         {
             InitializeComponent();
+        }
+
+        // Get the current OMSI version
+        private async Task<string> getOmsiVersionAsync()
+        {
+            // If process is attached
+            if (processAttached)
+            {
+                try
+                {
+                    // Perform an 'array of bytes' scan, in writable and non-executable memory, for:
+                    // Version: ???????....
+                    // For example, Version: 2.3.004....
+                    IEnumerable<long> resultsAoBScan = await m.AoBScan("56 65 72 73 69 6F 6E 3A 20 ?? ?? ?? ?? ?? ?? ?? 0D 0A 0D 0A", true, false);
+
+                    // If we found at least one result
+                    if (resultsAoBScan.Count() > 0)
+                    {
+                        // Get the first result's address
+                        long firstAoBScanResult = resultsAoBScan.FirstOrDefault();
+
+                        // Read 16 characters of the first result's address
+                        string omsiVer = m.ReadString(firstAoBScanResult.ToString("X"), "", 16).ToString();
+
+                        // Start at the 9th character and finish at the 7th character of that substring
+                        omsiVer = omsiVer.Substring(9, 7);
+
+                        // Return the OMSI version, ideally something like:
+                        // 2.3.004
+                        return omsiVer;
+                    }
+                }
+                catch { }
+            }
+
+            // If all else fails, return the version as:
+            // Unknown
+            return "Unknown";
         }
 
         // Get the current date and time in OMSI
@@ -251,7 +294,7 @@ namespace OMSI_Time_Sync
         }
 
         // Timer that runs every 1 second
-        private void tmrOMSI_Tick(object sender, EventArgs e)
+        private async void tmrOMSI_Tick(object sender, EventArgs e)
         {
             // If the plugin is active or not then indicate this on the UI
             if (OmsiTelemetry.pluginActive)
@@ -289,12 +332,19 @@ namespace OMSI_Time_Sync
                 // De-attach process
                 processAttached = false;
 
+                omsiVersion = "Unknown";
+
                 m.CloseProcess();
             }
             
             // If a process is attached
             if (processAttached)
             {
+                if (omsiVersion == "Unknown")
+                {
+                    omsiVersion = await getOmsiVersionAsync();
+                }
+
                 // If getOmsiTime() is true then OMSI is loaded into a map with a valid date and time
                 omsiLoaded = getOmsiTime();
 

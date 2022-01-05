@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("OMSI Time Sync")]
 [assembly: AssemblyDescription("Automatically syncs OMSI's in-game time to the specified real life time")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Paul Lewis")]
 [assembly: AssemblyProduct("OMSI Time Sync")]
-[assembly: AssemblyCopyright("Copyright ©Ixel 2021")]
+[assembly: AssemblyCopyright("Copyright ©Paul Lewis 2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

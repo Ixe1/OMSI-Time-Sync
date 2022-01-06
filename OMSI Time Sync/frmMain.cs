@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Pipes;
 using System.Linq;
+using System.Media;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -198,6 +199,7 @@ namespace OMSI_Time_Sync
                 AppConfig.windowPositionTop = Convert.ToInt32(txtRdr.ReadLine());
                 AppConfig.manualSyncHotkeyIndex = Convert.ToInt32(txtRdr.ReadLine());
                 AppConfig.autoSyncModeIndex = Convert.ToInt32(txtRdr.ReadLine());
+                AppConfig.manualSyncHotkeySound = Convert.ToBoolean(txtRdr.ReadLine());
 
                 return true;
             }
@@ -213,6 +215,7 @@ namespace OMSI_Time_Sync
                 AppConfig.windowPositionTop = AppConfigDefaults.windowPositionTop;
                 AppConfig.manualSyncHotkeyIndex = AppConfigDefaults.manualSyncHotkeyIndex;
                 AppConfig.autoSyncModeIndex = AppConfigDefaults.autoSyncModeIndex;
+                AppConfig.manualSyncHotkeySound = AppConfigDefaults.manualSyncHotkeySound;
 
                 return false; 
             }
@@ -234,6 +237,7 @@ namespace OMSI_Time_Sync
                 txtWtr.WriteLine(AppConfig.windowPositionTop.ToString());
                 txtWtr.WriteLine(AppConfig.manualSyncHotkeyIndex.ToString());
                 txtWtr.WriteLine(AppConfig.autoSyncModeIndex.ToString());
+                txtWtr.WriteLine(AppConfig.manualSyncHotkeySound.ToString());
 
                 txtWtr.Close();
 
@@ -483,6 +487,27 @@ namespace OMSI_Time_Sync
         {
             // Sync OMSI time with actual time, if possible
             syncOmsiTime();
+
+            // Play sound to indicate that the hotkey press was acknowledged by the program, if enabled
+            if (AppConfig.manualSyncHotkeySound)
+            {
+                SystemSounds.Asterisk.Play();
+            }
+        }
+
+        // For handling the manual sync hotkey sound setting
+        private void chkManualSyncHotkeySound_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkManualSyncHotkeySound.Checked)
+            {
+                chkManualSyncHotkeySound.BackgroundImage = OMSI_Time_Sync.Properties.Resources.volume;
+            }
+            else
+            {
+                chkManualSyncHotkeySound.BackgroundImage = OMSI_Time_Sync.Properties.Resources.volume_mute;
+            }
+
+            AppConfig.manualSyncHotkeySound = chkManualSyncHotkeySound.Checked;
         }
 
         // For handling the auto sync mode setting
@@ -695,6 +720,7 @@ namespace OMSI_Time_Sync
         public static int windowPositionTop = AppConfigDefaults.windowPositionTop;
         public static int manualSyncHotkeyIndex = AppConfigDefaults.manualSyncHotkeyIndex;
         public static int autoSyncModeIndex = AppConfigDefaults.autoSyncModeIndex;
+        public static bool manualSyncHotkeySound = AppConfigDefaults.manualSyncHotkeySound;
     }
 
     // This app's default config
@@ -709,5 +735,6 @@ namespace OMSI_Time_Sync
         public static int windowPositionTop = -1;
         public static int manualSyncHotkeyIndex = 0;
         public static int autoSyncModeIndex = 0;
+        public static bool manualSyncHotkeySound = false;
     }
 }

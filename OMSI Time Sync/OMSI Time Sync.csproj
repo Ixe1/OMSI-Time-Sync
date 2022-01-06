@@ -136,6 +136,8 @@
   <ItemGroup>
     <Content Include="app.png" />
     <Content Include="Bevel-And-Emboss-Car-Van-bus.ico" />
+    <None Include="volume-mute.png" />
+    <None Include="volume.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">

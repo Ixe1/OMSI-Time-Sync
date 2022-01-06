@@ -35,7 +35,6 @@
             this.lblSystemTime = new System.Windows.Forms.Label();
             this.lblHeaderOmsiTime = new System.Windows.Forms.Label();
             this.lblHeaderSystemTime = new System.Windows.Forms.Label();
-            this.picLogo = new System.Windows.Forms.PictureBox();
             this.btnManualSyncOmsiTime = new System.Windows.Forms.Button();
             this.chkAutoSyncOmsiTime = new System.Windows.Forms.CheckBox();
             this.chkOnlyResyncOmsiTimeIfBehindActualTime = new System.Windows.Forms.CheckBox();
@@ -52,6 +51,8 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.lblOmsiTelemetryPluginStatus = new System.Windows.Forms.Label();
+            this.chkManualSyncHotkeySound = new System.Windows.Forms.CheckBox();
+            this.picLogo = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.picLogo)).BeginInit();
             this.SuspendLayout();
             // 
@@ -97,17 +98,6 @@
             this.lblHeaderSystemTime.Size = new System.Drawing.Size(78, 13);
             this.lblHeaderSystemTime.TabIndex = 3;
             this.lblHeaderSystemTime.Text = "Actual Time:";
-            // 
-            // picLogo
-            // 
-            this.picLogo.BackgroundImage = global::OMSI_Time_Sync.Properties.Resources.school_bus_1759;
-            this.picLogo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.picLogo.Location = new System.Drawing.Point(342, 9);
-            this.picLogo.Name = "picLogo";
-            this.picLogo.Size = new System.Drawing.Size(143, 138);
-            this.picLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.picLogo.TabIndex = 4;
-            this.picLogo.TabStop = false;
             // 
             // btnManualSyncOmsiTime
             // 
@@ -335,11 +325,37 @@
             this.lblOmsiTelemetryPluginStatus.TabIndex = 19;
             this.lblOmsiTelemetryPluginStatus.Text = "Not Detected";
             // 
+            // chkManualSyncHotkeySound
+            // 
+            this.chkManualSyncHotkeySound.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkManualSyncHotkeySound.BackgroundImage = global::OMSI_Time_Sync.Properties.Resources.volume_mute;
+            this.chkManualSyncHotkeySound.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.chkManualSyncHotkeySound.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkManualSyncHotkeySound.Location = new System.Drawing.Point(342, 186);
+            this.chkManualSyncHotkeySound.Name = "chkManualSyncHotkeySound";
+            this.chkManualSyncHotkeySound.Size = new System.Drawing.Size(27, 21);
+            this.chkManualSyncHotkeySound.TabIndex = 21;
+            this.chkManualSyncHotkeySound.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.chkManualSyncHotkeySound.UseVisualStyleBackColor = false;
+            this.chkManualSyncHotkeySound.CheckedChanged += new System.EventHandler(this.chkManualSyncHotkeySound_CheckedChanged);
+            // 
+            // picLogo
+            // 
+            this.picLogo.BackgroundImage = global::OMSI_Time_Sync.Properties.Resources.school_bus_1759;
+            this.picLogo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.picLogo.Location = new System.Drawing.Point(342, 9);
+            this.picLogo.Name = "picLogo";
+            this.picLogo.Size = new System.Drawing.Size(143, 138);
+            this.picLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picLogo.TabIndex = 4;
+            this.picLogo.TabStop = false;
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(497, 236);
+            this.Controls.Add(this.chkManualSyncHotkeySound);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.lblOmsiTelemetryPluginStatus);
             this.Controls.Add(this.label4);
@@ -399,6 +415,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label lblOmsiTelemetryPluginStatus;
+        private System.Windows.Forms.CheckBox chkManualSyncHotkeySound;
     }
 }
 

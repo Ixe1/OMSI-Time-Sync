@@ -32,6 +32,9 @@ namespace OMSI_Time_Sync
         // For hotkey support
         globalKeyboardHook gkhManualSyncHotkey = new globalKeyboardHook();
 
+        // Hours difference for auto detecting offset time
+        public double hoursDifference = 0.0;
+
         public frmMain()
         {
             InitializeComponent();
@@ -200,6 +203,7 @@ namespace OMSI_Time_Sync
                 AppConfig.manualSyncHotkeyIndex = Convert.ToInt32(txtRdr.ReadLine());
                 AppConfig.autoSyncModeIndex = Convert.ToInt32(txtRdr.ReadLine());
                 AppConfig.manualSyncHotkeySound = Convert.ToBoolean(txtRdr.ReadLine());
+                AppConfig.autoDetectOffsetHours = Convert.ToBoolean(txtRdr.ReadLine());
 
                 return true;
             }
@@ -216,6 +220,7 @@ namespace OMSI_Time_Sync
                 AppConfig.manualSyncHotkeyIndex = AppConfigDefaults.manualSyncHotkeyIndex;
                 AppConfig.autoSyncModeIndex = AppConfigDefaults.autoSyncModeIndex;
                 AppConfig.manualSyncHotkeySound = AppConfigDefaults.manualSyncHotkeySound;
+                AppConfig.autoDetectOffsetHours = AppConfigDefaults.autoDetectOffsetHours;
 
                 return false; 
             }
@@ -238,6 +243,7 @@ namespace OMSI_Time_Sync
                 txtWtr.WriteLine(AppConfig.manualSyncHotkeyIndex.ToString());
                 txtWtr.WriteLine(AppConfig.autoSyncModeIndex.ToString());
                 txtWtr.WriteLine(AppConfig.manualSyncHotkeySound.ToString());
+                txtWtr.WriteLine(AppConfig.autoDetectOffsetHours.ToString());
 
                 txtWtr.Close();
 
@@ -326,12 +332,6 @@ namespace OMSI_Time_Sync
                 this.lblOmsiTelemetryPluginStatus.Text = "Not Detected";
             }
 
-            // Adjust the actual time by the number of 'offset hours' that is set in the UI
-            systemTime = DateTime.Now.AddHours(AppConfig.offsetHour);
-
-            // Display the actual time in the UI
-            lblSystemTime.Text = systemTime.ToString();
-
             // Search for Omsi.exe process
             int processID = m.GetProcIdFromName("omsi");
 
@@ -356,7 +356,48 @@ namespace OMSI_Time_Sync
 
                 m.CloseProcess();
             }
-            
+
+            // If auto detection of offset hours is enabled then:
+            // 
+            if (AppConfig.autoDetectOffsetHours)
+            {
+                if (processAttached &&
+                    omsiLoaded &&
+                    Omsi.isVersionSupported(omsiVersion) &&
+                    systemTime == DateTime.MinValue)
+                {
+                    systemTime = DateTime.Now;
+
+                    hoursDifference = Math.Round((omsiTime - systemTime).TotalHours);
+
+                    systemTime = systemTime.AddHours(hoursDifference);
+                }
+                else if (!processAttached ||
+                    !omsiLoaded ||
+                    !Omsi.isVersionSupported(omsiVersion))
+                {
+                    systemTime = DateTime.MinValue;
+
+                    lblSystemTime.Text = "Waiting for OMSI map...";
+                }
+            }
+
+            if (!AppConfig.autoDetectOffsetHours)
+            {
+                // Adjust the actual time by the number of 'offset hours' that is set in the UI
+                systemTime = DateTime.Now.AddHours(AppConfig.offsetHour);
+
+                // Display the actual time in the UI
+                lblSystemTime.Text = systemTime.ToString();
+            }
+            else if (AppConfig.autoDetectOffsetHours && systemTime != DateTime.MinValue)
+            {
+                systemTime = DateTime.Now.AddHours(hoursDifference);
+
+                // Display the actual time in the UI
+                lblSystemTime.Text = systemTime.ToString();
+            }
+
             // If a process is attached
             if (processAttached)
             {
@@ -516,6 +557,15 @@ namespace OMSI_Time_Sync
             AppConfig.autoSyncModeIndex = cmbAutoSyncMode.SelectedIndex;
         }
 
+        // For handling the auto detect offset time setting
+        private void chkAutoDetectOffsetTime_CheckedChanged(object sender, EventArgs e)
+        {
+            // Disable combo box for manually adjusting the time offset if auto detect is enabled and vice versa
+            cmbOffsetHours.Enabled = !chkAutoDetectOffsetTime.Checked;
+
+            AppConfig.autoDetectOffsetHours = chkAutoDetectOffsetTime.Checked;
+        }
+
         // Github link
         private void lnkGithub_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
@@ -555,6 +605,8 @@ namespace OMSI_Time_Sync
             chkAlwaysOnTop.Checked = AppConfig.alwaysOnTop;
             chkAutoSyncOmsiTime.Checked = AppConfig.autoSyncOmsiTime;
             chkOnlyResyncOmsiTimeIfBehindActualTime.Checked = AppConfig.onlyResyncOmsiTimeIfBehindActualTime;
+            chkManualSyncHotkeySound.Checked = AppConfig.manualSyncHotkeySound;
+            chkAutoDetectOffsetTime.Checked = AppConfig.autoDetectOffsetHours;
 
             // Add 'key released' event for manual sync hotkey
             gkhManualSyncHotkey.KeyUp += new KeyEventHandler(manualSyncHotkey_KeyUp);
@@ -721,6 +773,7 @@ namespace OMSI_Time_Sync
         public static int manualSyncHotkeyIndex = AppConfigDefaults.manualSyncHotkeyIndex;
         public static int autoSyncModeIndex = AppConfigDefaults.autoSyncModeIndex;
         public static bool manualSyncHotkeySound = AppConfigDefaults.manualSyncHotkeySound;
+        public static bool autoDetectOffsetHours = AppConfigDefaults.autoDetectOffsetHours;
     }
 
     // This app's default config
@@ -736,5 +789,6 @@ namespace OMSI_Time_Sync
         public static int manualSyncHotkeyIndex = 0;
         public static int autoSyncModeIndex = 0;
         public static bool manualSyncHotkeySound = false;
+        public static bool autoDetectOffsetHours = true;
     }
 }

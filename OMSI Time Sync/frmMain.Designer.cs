@@ -53,6 +53,7 @@
             this.lblOmsiTelemetryPluginStatus = new System.Windows.Forms.Label();
             this.chkManualSyncHotkeySound = new System.Windows.Forms.CheckBox();
             this.picLogo = new System.Windows.Forms.PictureBox();
+            this.chkAutoDetectOffsetTime = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.picLogo)).BeginInit();
             this.SuspendLayout();
             // 
@@ -350,11 +351,23 @@
             this.picLogo.TabIndex = 4;
             this.picLogo.TabStop = false;
             // 
+            // chkAutoDetectOffsetTime
+            // 
+            this.chkAutoDetectOffsetTime.AutoSize = true;
+            this.chkAutoDetectOffsetTime.Location = new System.Drawing.Point(342, 162);
+            this.chkAutoDetectOffsetTime.Name = "chkAutoDetectOffsetTime";
+            this.chkAutoDetectOffsetTime.Size = new System.Drawing.Size(48, 17);
+            this.chkAutoDetectOffsetTime.TabIndex = 22;
+            this.chkAutoDetectOffsetTime.Text = "Auto";
+            this.chkAutoDetectOffsetTime.UseVisualStyleBackColor = true;
+            this.chkAutoDetectOffsetTime.CheckedChanged += new System.EventHandler(this.chkAutoDetectOffsetTime_CheckedChanged);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(497, 236);
+            this.Controls.Add(this.chkAutoDetectOffsetTime);
             this.Controls.Add(this.chkManualSyncHotkeySound);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.lblOmsiTelemetryPluginStatus);
@@ -416,6 +429,7 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label lblOmsiTelemetryPluginStatus;
         private System.Windows.Forms.CheckBox chkManualSyncHotkeySound;
+        private System.Windows.Forms.CheckBox chkAutoDetectOffsetTime;
     }
 }
 
